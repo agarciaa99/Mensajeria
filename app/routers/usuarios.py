@@ -24,13 +24,13 @@ def registrar_usuario(user: Usuario):
     cursor = conn.cursor()
     try:
         # Verificar si el usuario ya existe
-        # cursor.execute("SELECT * FROM Usuarios WHERE usuario = %s", (usuario_generado,))
-        # if cursor.fetchone():
-        #     raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
+        cursor.execute("SELECT * FROM usuarios WHERE usuario = %s", (usuario_generado,))
+        if cursor.fetchone():
+            raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
         
         # Guardar datos
         cursor.execute("""
-                       INSERT INTO Usuarios (nombre, apellido_paterno, apellido_materno, usuario, contrasena)
+                       INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, usuario, contrasena)
                        VALUES (%s, %s, %s, %s, %s)
                        """, (user.nombre, user.apellido_paterno, user.apellido_materno, usuario_generado, contrasena_generada))
         conn.commit()
