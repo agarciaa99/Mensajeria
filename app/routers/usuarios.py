@@ -24,9 +24,9 @@ def registrar_usuario(user: Usuario):
     cursor = conn.cursor()
     try:
         # Verificar si el usuario ya existe
-        cursor.execute("SELECT * FROM Usuarios WHERE usuario = %s", (usuario_generado,))
-        if cursor.fetchone():
-            raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
+        # cursor.execute("SELECT * FROM Usuarios WHERE usuario = %s", (usuario_generado,))
+        # if cursor.fetchone():
+        #     raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
         
         # Guardar datos
         cursor.execute("""
