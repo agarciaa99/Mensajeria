@@ -68,3 +68,15 @@ def login_usuario(user: LoginRequest):
     finally:
         cursor.close()
         conn.close()
+
+@router.get("/")
+def obtener_usuarios():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        cursor.execute("SELECT id_usuario, nombre, apellido_paterno, apellido_materno, usuario, contrasena FROM usuarios")
+        usuarios = cursor.fetchall()
+        return usuarios
+    finally:
+        cursor.close()
+        conn.close()
