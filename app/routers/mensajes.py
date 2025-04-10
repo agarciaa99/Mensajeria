@@ -48,3 +48,28 @@ def obtener_mensajes_recibidos(id_usuario: int):
     finally:
         cursor.close()
         conn.close()
+
+@router.get("/conversacion/{usuario1_id}/{usuario2_id}")
+def obtener_conversacion(usuario1_id: int, usuario2_id: int):
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("""
+            SELECT m.id_mensaje, m.contenido, u.nombre AS emisor
+            FROM mensajes m
+            JOIN usuarios u ON m.id_emisor = u.id_usuario
+            WHERE (m.id_emisor = %s AND m.id_receptor = %s)
+               OR (m.id_emisor = %s AND m.id_receptor = %s)
+            ORDER BY m.id_mensaje ASC
+        """, (usuario1_id, usuario2_id, usuario2_id, usuario1_id))
+
+        mensajes = cursor.fetchall()
+        return mensajes
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        cursor.close()
+        conn.close()
