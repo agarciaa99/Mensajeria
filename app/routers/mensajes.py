@@ -33,7 +33,7 @@ def obtener_mensajes_recibidos(id_usuario: int):
 
     try:
         cursor.execute("""
-                       SELECT m.id_mensaje, m.contenido, u.nombre AS emisor
+                       SELECT m.id_mensaje, m.contenido, m.id_emisor, u.nombre AS emisor
                        FROM mensajes m
                        JOIN usuarios u ON m.id_emisor = u.id_usuario
                        WHERE m.id_receptor = %s
